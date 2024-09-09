@@ -17,9 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from game import views
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/home/', permanent=True)),
     path('home/', views.home_page, name='home'),
+    path('game-of-life/', views.game_of_life_view, name='game_of_life'),
+    path('next_generation/', views.next_generation_view, name='next_generation'),
 
     path('admin/', admin.site.urls),
 ]
