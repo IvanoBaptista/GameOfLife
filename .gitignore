@@ -1,0 +1,39 @@
+# Python compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+
+# Virtual environment folder
+venv/
+env/
+ENV/
+*.env
+
+# Django related files
+*.log
+db.sqlite3  # Only if you're using SQLite in development (team may use their own database)
+*.pot
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# If using migrations
+migrations/
+
+# Static and media files (optional, depends on your setup)
+staticfiles/
+media/
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
