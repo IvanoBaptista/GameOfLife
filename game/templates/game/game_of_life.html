@@ -13,16 +13,29 @@ Game of Life
         <button id="stop-btn" class="px-6 py-2 bg-red-500 rounded">Stop</button>
         <button id="reset-btn" class="px-6 py-2 bg-yellow-500 rounded">Reset</button>
     </div>
+    <!-- Add the Alive Cells count directly below the controls -->
+    <p id="alive-count" class="text-lg font-semibold mt-4">Alive Cells: 0</p>
     <table id="game-grid" class=""></table>
 </div>
 
 <script>
+    let mouseIsDown = false;
+
     let grid = {{ initial_grid | safe }};
-    const rows = {{rows}};
-    const cols = {{cols}};
+    const rows = {{ rows }};
+    const cols = {{ cols }};
     let running = false;
     let intervalId = null;
 
+    document.addEventListener('mousedown', () => {
+        mouseIsDown = true;
+    });
+
+    document.addEventListener('mouseup', () => {
+        mouseIsDown = false;
+    });
+
+    // Function to create the grid and update DOM elements
     function createGrid() {
         const table = document.getElementById("game-grid");
         table.innerHTML = "";
@@ -32,18 +45,35 @@ Game of Life
             for (let col = 0; col < cols; col++) {
                 const td = document.createElement("td");
                 td.className = grid[row][col] === 1 ? "alive" : "dead";
-                td.addEventListener('click', () => toggleCellState(row, col));  // Make cells clickable
+                
+                // Toggle state on click
+                td.addEventListener('click', () => toggleCellState(row, col));
+
+                // Toggle state on mouseover when mouse is down (dragging)
+                td.addEventListener('mouseover', () => {
+                    if (mouseIsDown) {
+                        toggleCellState(row, col);
+                    }
+                });
+
                 tr.appendChild(td);
             }
             table.appendChild(tr);
         }
+
+        // Update alive cells count
+        countAliveCells();
     }
 
+    // Function to toggle the state of a cell (alive/dead)
     function toggleCellState(row, col) {
         grid[row][col] = grid[row][col] === 1 ? 0 : 1;
-        createGrid();
+        const cell = document.querySelector(`#game-grid tr:nth-child(${row + 1}) td:nth-child(${col + 1})`);
+        cell.className = grid[row][col] === 1 ? "alive" : "dead";
     }
 
+
+    // Function to update the grid for the next generation
     function updateGrid() {
         fetch('/next_generation/', {
             method: 'POST',
@@ -53,13 +83,27 @@ Game of Life
                 'X-CSRFToken': '{{ csrf_token }}'
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                grid = data.next_grid;
-                createGrid();
-            });
+        .then(response => response.json())
+        .then(data => {
+            grid = data.next_grid;
+            createGrid();
+        });
     }
 
+    // Function to count alive cells
+    function countAliveCells() {
+        let aliveCount = 0;
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                if (grid[row][col] === 1) {
+                    aliveCount++;
+                }
+            }
+        }
+        document.getElementById("alive-count").innerText = `Alive Cells: ${aliveCount}`;
+    }
+
+    // Game control functions
     function startGame() {
         if (!running) {
             running = true;
@@ -76,14 +120,16 @@ Game of Life
 
     function resetGame() {
         stopGame();
-        grid = Array.from({length: rows}, () => Array(cols).fill(0));
+        grid = Array.from({ length: rows }, () => Array(cols).fill(0));
         createGrid();
     }
 
+    // Event listeners for control buttons
     document.getElementById("start-btn").addEventListener("click", startGame);
     document.getElementById("stop-btn").addEventListener("click", stopGame);
     document.getElementById("reset-btn").addEventListener("click", resetGame);
 
+    // Initialize the grid on page load
     createGrid();
-</script>
+</script>   
 {% endblock content %}
