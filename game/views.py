@@ -7,8 +7,8 @@ def home_page(request) -> HttpResponse:
     return render(request, 'game/home.html')
 
 def game_of_life_view(request):
-    rows = 50
-    cols = 50
+    rows = 30
+    cols = 30
     initial_grid = create_initial_grid(rows, cols)  # Create an initial grid
     context = {
         'initial_grid': initial_grid,
