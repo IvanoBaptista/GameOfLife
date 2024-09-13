@@ -5,6 +5,16 @@
 {% endblock title %}
 
 {% block content %}
-    <h2 class="text-3xl font-bold">Home Page</h2>
-    <p>This is the home page of the website.</p>
+<div class="p-4">
+    <div class="flex flex-col justify-center items-center text-white mt-4 space-y-4">
+        <span class="text-2xl">
+            Welcome to the game of life! Click here to play.
+        </span>
+        <a href="/game-of-life">
+            <button class="px-6 py-1 bg-white text-black rounded">
+                <span>Play game</span>
+            </button>
+        </a>
+    </div>
+</div>
 {% endblock %}

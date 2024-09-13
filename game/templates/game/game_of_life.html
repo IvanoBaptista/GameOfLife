@@ -5,17 +5,14 @@ Game of Life
 {% endblock title %}
 
 {% block content %}
-<h1>Game of Life</h1>
-
-<div class="flex flex-col justify-center items-center min-h-screen space-y-4">
+<div class="flex flex-col justify-center items-center min-h-screen space-y-2 text-white">
+    <p id="alive-count" class="text-lg font-semibold mt-4">Alive Cells: 0</p>
+    <table id="game-grid" class=""></table>
     <div id="controls" class="flex justify-start items-center space-x-6">
         <button id="start-btn" class="px-6 py-2 bg-green-500 rounded">Start</button>
         <button id="stop-btn" class="px-6 py-2 bg-red-500 rounded">Stop</button>
         <button id="reset-btn" class="px-6 py-2 bg-yellow-500 rounded">Reset</button>
     </div>
-    <!-- Add the Alive Cells count directly below the controls -->
-    <p id="alive-count" class="text-lg font-semibold mt-4">Alive Cells: 0</p>
-    <table id="game-grid" class=""></table>
 </div>
 
 <script>
@@ -35,7 +32,6 @@ Game of Life
         mouseIsDown = false;
     });
 
-    // Function to create the grid and update DOM elements
     function createGrid() {
         const table = document.getElementById("game-grid");
         table.innerHTML = "";
@@ -46,10 +42,8 @@ Game of Life
                 const td = document.createElement("td");
                 td.className = grid[row][col] === 1 ? "alive" : "dead";
                 
-                // Toggle state on click
                 td.addEventListener('click', () => toggleCellState(row, col));
 
-                // Toggle state on mouseover when mouse is down (dragging)
                 td.addEventListener('mouseover', () => {
                     if (mouseIsDown) {
                         toggleCellState(row, col);

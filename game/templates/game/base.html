@@ -4,20 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>{% block title %}{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        table { border-collapse: collapse; }
-        td { width: 30px; height: 30px; border: 1px solid black; }
-        .alive { background-color: black; }
-        .dead { background-color: white; }
+        body {
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+        }
+
+        .alive {
+            background-color: black;
+        }
+
+        .dead {
+            background-color: white;
+        }
+
     </style>
 </head>
 
-<body>
+<body class="min-h-screen bg-[#212121]">
+    <header class="p-4">
+        <div class="p-4">
+            <div class="bg-[#323232] text-white rounded-lg p-4">
+                <a href="/home">
+                    <h1 class="text-4xl font-semibold text-center">Game of Life</h1>
+                </a>
+            </div>
+        </div>
+    </header>
 
     <div class="container mx-auto">
         {% block content %}
